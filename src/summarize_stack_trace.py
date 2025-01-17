@@ -1,17 +1,19 @@
 import os
 import re
+import chardet
 
 def summarize_stack_traces(working_directory):
     raw_stack_traces = get_raw_stack_traces(working_directory)
     build_properties = parse_build_properties(working_directory)
-
     summarized_error_messages = {}
 
     for test_name in raw_stack_traces:
         raw_stack_trace = raw_stack_traces[test_name]
         filtered_stack_trace = filter_stack_trace(raw_stack_trace, build_properties)
+
         stack_trace_with_appended_code = append_code_lines(filtered_stack_trace, build_properties, working_directory)
         summarized_error_messages[test_name] = stack_trace_with_appended_code
+
 
     return summarized_error_messages
 
@@ -118,8 +120,12 @@ def get_line_number(line):
     return int(line_number)
 
 def get_code_line(file_path, line_number):
-    with open(file_path, 'r') as f:
-        lines = f.readlines()
+    try:
+        with open(file_path, 'r') as f:
+            lines = f.readlines()
+    except UnicodeDecodeError as e:
+        with open(file_path, 'r', encoding='ISO-8859-1') as f:
+            lines = f.readlines()
     # First line of the file has index 0.
     return lines[line_number - 1].strip()
 
