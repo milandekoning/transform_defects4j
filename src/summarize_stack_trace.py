@@ -96,11 +96,14 @@ def append_code_lines(filtered_stack_trace: str, build_properties, working_direc
     return '\n'.join(result)
 
 def refers_to_code_line(line):
-    return not line.startswith("Caused by:") and not line.endswith("(<generated>)")
+    return (not line.startswith("Caused by:") and
+            "(<generated>)" not in line and
+            "(Unknown Source)" not in line and
+            "through reference chain:" not in line)
 
 def get_file_path(line, working_directory, build_properties):
     # Remove the "  at " part of the line
-    at_removed = re.sub("\tat |-> at ", "", line)
+    at_removed = re.sub("\sat |-> at ", "", line)
     # Extract the file
     class_file = re.findall(r"\((.*):\d+\)", at_removed)[0]
     # Remove the "(Class.java:number)" part of the stack trace
