@@ -99,17 +99,18 @@ def append_code_lines(filtered_stack_trace: str, build_properties, working_direc
 def get_file_path(line, working_directory, build_properties):
     # Remove the "  at " part of the line
     at_removed = re.sub("\tat ", "", line)
+    # Extract the file
+    class_file = re.findall(r"\((.*):\d+\)", at_removed)[0]
     # Remove the "(Class.java:number)" part of the stack trace
-    only_class_path = re.sub("\(.*\)", "", at_removed)
-    # Remove inner class indicators like "$43" and "$DateBasedDeserializer"
-    class_package = re.sub("\$[^.]+", "", only_class_path)
+    package = re.sub(r"\(.*\)", "", at_removed)
+
 
     # The part after the last . is the method call and should not appear in the path
-    class_package_path_directories = class_package.split('.')[:-1]
+    package_path_directories = package.split('.')[:-2]
 
     # Check both in the source and test directories
-    src_path = os.path.join(working_directory, build_properties['d4j.dir.src.classes'], *class_package_path_directories) + '.java'
-    tests_path = os.path.join(working_directory, build_properties['d4j.dir.src.tests'], *class_package_path_directories) + '.java'
+    src_path = os.path.join(working_directory, build_properties['d4j.dir.src.classes'], *package_path_directories, class_file)
+    tests_path = os.path.join(working_directory, build_properties['d4j.dir.src.tests'], *package_path_directories, class_file)
 
     if os.path.exists(src_path):
         return src_path
