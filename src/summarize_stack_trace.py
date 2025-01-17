@@ -1,6 +1,5 @@
 import os
 import re
-import chardet
 
 def summarize_stack_traces(working_directory):
     raw_stack_traces = get_raw_stack_traces(working_directory)
