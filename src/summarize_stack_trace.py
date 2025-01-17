@@ -89,12 +89,15 @@ def append_code_lines(filtered_stack_trace: str, build_properties, working_direc
     filtered_stack_trace_lines = filtered_stack_trace.splitlines()
     result = [filtered_stack_trace_lines[0]]
     for line in filtered_stack_trace_lines[1:]:
-        file_path = get_file_path(line, working_directory, build_properties)
-        line_number = get_line_number(line)
-        code_line = get_code_line(file_path, line_number)
-        result.append(line + "  " + code_line)
+        if refers_to_code_line(line):
+            file_path = get_file_path(line, working_directory, build_properties)
+            line_number = get_line_number(line)
+            code_line = get_code_line(file_path, line_number)
+            result.append(line + "  " + code_line)
     return '\n'.join(result)
 
+def refers_to_code_line(line):
+    return not line.startswith("Caused by:")
 
 def get_file_path(line, working_directory, build_properties):
     # Remove the "  at " part of the line
