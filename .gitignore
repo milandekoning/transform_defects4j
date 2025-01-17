@@ -1,3 +1,4 @@
 .idea
 datasets/*
 !datasets/defects4j-single-function.json
+!datasets/d4j-transformed.json
