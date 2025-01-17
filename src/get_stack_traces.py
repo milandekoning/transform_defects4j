@@ -6,7 +6,10 @@ import subprocess
 from concurrent.futures import ThreadPoolExecutor
 
 from tqdm import tqdm
-from .summarize_stack_trace import summarize_stack_traces
+try:
+    from src.summarize_stack_trace import summarize_stack_traces
+except ImportError:
+    from summarize_stack_trace import summarize_stack_traces
 
 
 def get_summarized_stack_traces(dataset, transformed_functions=None, amount_of_threads=1):
