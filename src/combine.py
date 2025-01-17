@@ -17,7 +17,7 @@ def combine_bug(bug, stack_traces, transformed_function = None):
         bug['buggy_function'] = transformed_function
 
     for failing_test in bug['failing_tests']:
-        bug['failing_tests'][failing_test]['stack_trace_summary'] = stack_traces[failing_test]
+        bug['failing_tests'][failing_test]['stack_trace_summary'] = stack_traces.get(failing_test, None)
     return bug
 
 def parse_arguments():

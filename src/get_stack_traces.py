@@ -37,7 +37,7 @@ def get_result(job):
         return job.result()
     except Exception as e:
         print(e)
-        return "No stack trace could be obtained."
+        return {"Problem": "No stack traces could be obtained."}
 
 def get_failing_tests_for(bug, transformed_function = None):
     working_directory = f'tmp/{bug["id"]}'
