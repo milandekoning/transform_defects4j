@@ -9883,8 +9883,8 @@
     "fixed_function": "public static Number createNumber(String str)\n    {\n        try\n        {\n            if( str != null )\n            {\n                if( str.indexOf('.') != -1 )\n                {\n                    return Double.valueOf(str);\n                }\n                else\n                {\n                    return Long.valueOf(str);\n                }\n            }\n        }\n        catch (NumberFormatException nfe)\n        {\n            System.err.println(nfe.getMessage());\n        }\n\n        return null;\n    }",
     "replacement_info": {
       "file": "src/java/org/apache/commons/cli/TypeHandler.java",
-      "first_line": 158,
-      "last_line": 170
+      "first_line": 157,
+      "last_line": 169
     },
     "javadoc": "/**\n* <p>Create a number from a String. If a . is present, it creates a\n*    Double, otherwise a Long. </p>\n*\n* @param str the value\n* @return the number represented by <code>str</code>, if <code>str</code>\n* is not a number, null is returned.\n*/",
     "failing_tests": {
@@ -10213,8 +10213,8 @@
     "fixed_function": "public String getDescription() {\n            if (_desc == null) {\n                StringBuilder sb = new StringBuilder();\n\n                if (_from == null) { // can this ever occur?\n                    sb.append(\"UNKNOWN\");\n                } else {\n                    Class<?> cls = (_from instanceof Class<?>) ? (Class<?>)_from : _from.getClass();\n                    // Hmmh. Although Class.getName() is mostly ok, it does look\n                    // butt-ugly for arrays.\n                    // 06-Oct-2016, tatu: as per [databind#1403], `getSimpleName()` not so good\n                    //   as it drops enclosing class. So let's try bit different approach\n                    int arrays = 0;\n                    while (cls.isArray()) {\n                        cls = cls.getComponentType();\n                        ++arrays;\n                    }\n                    sb.append(cls.getName());\n                    while (--arrays >= 0) {\n                        sb.append(\"[]\");\n                    }\n                    /* was:\n                    String pkgName = ClassUtil.getPackageName(cls);\n                    if (pkgName != null) {\n                        sb.append(pkgName);\n                        sb.append('.');\n                    }\n                    */\n                }\n                sb.append('[');\n                if (_fieldName != null) {\n                    sb.append('\"');\n                    sb.append(_fieldName);\n                    sb.append('\"');\n                } else if (_index >= 0) {\n                    sb.append(_index);\n                } else {\n                    sb.append('?');\n                }\n                sb.append(']');\n                _desc = sb.toString();\n            }\n            return _desc;\n        }",
     "replacement_info": {
       "file": "src/main/java/com/fasterxml/jackson/databind/JsonMappingException.java",
-      "first_line": 119,
-      "last_line": 152
+      "first_line": 118,
+      "last_line": 151
     },
     "javadoc": "/**\n* Object through which reference was resolved. Can be either\n* actual instance (usually the case for serialization), or\n* Class (usually the case for deserialization).\n*<p>\n* Note that this value must be `transient` to allow serializability (as\n* often such Object is NOT serializable; or, in case of `Class`, may\n* not available at the point of deserialization). As such will return\n* `null` if instance has been passed using JDK serialization.\n*/",
     "failing_tests": {
